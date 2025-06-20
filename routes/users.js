@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost:27017/pinterest')
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
   dp: { type: String }, // URL or path to display picture
   email: { type: String, required: true, unique: true },

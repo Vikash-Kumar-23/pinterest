@@ -6,16 +6,28 @@ const passport = require('passport');
 
 
 const localStrategy = require('passport-local');
-passport.authenticate(new localStrategy(userModel.authenticate()));
+passport.use(new localStrategy(userModel.authenticate()));
 
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
+router.get('/login', function (req, res, next) {
+  res.render('login');
+});
+
+router.get('/feed', function (req, res, next) {
+  res.render('feed');
+});
+
+// router.get('/profile', isLoggedIn, function (req, res, next) {
+//   res.render('profile');
+// });
+
 router.get('/profile', isLoggedIn, function (req, res, next) {
-  res.render('profile', { user: req.user });
+  res.render('profile', { user: req.user }); // Pass the user object to the profile template
 });
 
 router.post("/register", function (req, res){
@@ -33,7 +45,7 @@ router.post("/register", function (req, res){
 
 router.post("/login", passport.authenticate('local', {
   successRedirect: '/profile',
-  failureRedirect: '/',
+  failureRedirect: '/login',
 }), function (req, res) {
   // This function is intentionally left empty as the authentication is handled by passport
 });
@@ -52,40 +64,8 @@ function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/');
+  res.redirect('/login');
 }
 
-
-
-
-
-
-// router.get('/alluserposts', async function (req, res, next) {
-//   let user = await userModel.findOne({_id:"6852acc94a244735a658ef8c"}).populate('posts');
-//   res.send(user);
-// }
-// );
-
-// router.get('/create-user', async function (req, res, next) {
-//   let createduser = await userModel.create({
-//     username: 'john_doe',
-//     password: 'password123',
-//     dp: 'http://example.com/dp.jpg',
-//     email: 'john@gmail.com',
-//     fullName: 'John Doe',
-//   });
-//   res.send(createduser);
-// });
-
-// router.get('/create-post', async function (req, res, next) {
-//   let createdpost = await postModel.create({
-//     postText: "This is a sample post 2",
-//     user: "6852acc94a244735a658ef8c" // Replace with a valid user ID
-//   });
-//   let user = await userModel.findOne({ _id: "6852acc94a244735a658ef8c" }); // Replace with a valid user ID
-//   user.posts.push(createdpost._id);
-//   await user.save();
-//   res.send("Post created and added to user successfully");
-// });
 
 module.exports = router;
