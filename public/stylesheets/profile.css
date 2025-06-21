@@ -182,3 +182,47 @@ button {
 button:hover {
   background-color: #218838;
 } */
+
+/* Responsive image grid for profile gallery */
+.container_card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 0 15px;
+  justify-content: center;
+}
+
+.container_card .card {
+  width: 100%;
+  max-width: 100%;
+  min-width: unset;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container_card .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.container_card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container_card {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .container_card {
+    grid-template-columns: 1fr;
+  }
+}

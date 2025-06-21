@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const userModel = require('./users');
-const postModel = require('./post'); 
+const postModel = require('./post');
 const passport = require('passport');
 const upload = require('./multer');
 
 const localStrategy = require('passport-local');
+const post = require('./post');
 passport.use(new localStrategy(userModel.authenticate()));
 
 
@@ -15,7 +16,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-  res.render('login',{error: req.flash('error')}); // Pass the error messages to the login template 
+  res.render('login', { error: req.flash('error') }); // Pass the error messages to the login template 
 });
 
 router.get('/feed', function (req, res, next) {
@@ -23,28 +24,38 @@ router.get('/feed', function (req, res, next) {
 });
 
 // GET post creation page
-router.post('/upload', upload.single('file'),(req, res) => {
+router.post('/upload', isLoggedIn, upload.single('file'), async function (req, res, next) {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
   }
-  res.send('File uploaded successfully');
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  const post = await postModel.create({
+    imageText: req.body.filecaption,
+    postImage: req.file.filename, // Use the filename from multer
+    user: user._id // Store the user's ID
+  });
+
+  user.posts.push(post._id); // Add the post ID to the user's posts array
+  user.save(); // Save the user with the new post
+  res.redirect('/profile');
 });
 
-router.get('/profile', isLoggedIn, function (req, res, next) {
-  res.render('profile', { user: req.user }); // Pass the user object to the profile template
+router.get('/profile', isLoggedIn, async function (req, res, next) {
+  const user = await userModel.findOne({ username: req.session.passport.user }).populate('posts');
+  res.render('profile', { user: user });
 });
 
-router.post("/register", function (req, res){
-  const { username,email, fullname } = req.body;
+router.post("/register", function (req, res) {
+  const { username, email, fullname } = req.body;
   const userData = new userModel({ username, email, fullname });
 
   userModel.register(userData, req.body.password)
-  .then(function(){
-    passport.authenticate('local')(req, res, function () {
-      res.redirect('/profile');
-    }
-  )
-  })
+    .then(function () {
+      passport.authenticate('local')(req, res, function () {
+        res.redirect('/profile');
+      }
+      )
+    })
 })
 
 router.post("/login", passport.authenticate('local', {
@@ -57,11 +68,11 @@ router.post("/login", passport.authenticate('local', {
 
 
 router.get('/logout', function (req, res) {
-  req.logout(function(err) {
+  req.logout(function (err) {
     if (err) { return next(err); }
     res.redirect('/');
   }
-);
+  );
 }
 );
 
