@@ -192,6 +192,7 @@ button:hover {
   max-width: 1200px;
   padding: 0 15px;
   justify-content: center;
+  align-items: start;
 }
 
 .container_card .card {
@@ -209,8 +210,8 @@ button:hover {
 
 .container_card img {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border-radius: 12px 12px 0 0;
 }
 
