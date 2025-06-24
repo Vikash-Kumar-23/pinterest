@@ -4,12 +4,26 @@ body {
 }
 
 .card {
-  width: 350px;
   border: none;
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease;
+}
+
+.container_card .card .card-img-top {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+}
+
+.container_card .card .card-body {
+  padding: 0;
+  margin: 0;
+}
+
+.container_card .card .card-title {
+  margin: 0;
 }
 
 .card:hover {
@@ -35,6 +49,10 @@ body {
 .profile img {
   border: 4px solid #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-photo-clickable {
+  cursor: pointer;
 }
 
 h4 {
@@ -183,21 +201,120 @@ button:hover {
   background-color: #218838;
 } */
 
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto; /* Center the modal */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  position: relative;
+  text-align: center;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-content .form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.modal-content .btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content .btn-success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.modal-content .btn-success:hover {
+  background-color: #218838;
+}
+
+.modal-content .btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  margin-top: 10px;
+}
+
+.modal-content .btn-danger:hover {
+  background-color: #c82333;
+}
+
 /* Responsive image grid for profile gallery */
 .container_card {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  column-count: 3; /* Adjust as needed for desired number of columns */
+  column-gap: 15px; /* Horizontal spacing between columns */
   margin: 2rem auto;
   max-width: 1200px;
   padding: 0 15px;
-  justify-content: center;
-  align-items: start;
 }
 
 .container_card .card {
   width: 100%;
-  max-width: 100%;
+  display: inline-block; /* Important for column-count to work */
+  margin-bottom: 15px; /* Vertical spacing between cards */
+  break-inside: avoid; /* Prevent cards from breaking across columns */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Re-add shadow for visual separation */
+  border-radius: 15px; /* Re-add border-radius */
+  overflow: hidden;
+}
   min-width: unset;
   margin: 0 auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;

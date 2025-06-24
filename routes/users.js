@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-  dp: { type: String }, // URL or path to display picture
+  profileImage: { type: String, default: '' },
   email: { type: String, required: true, unique: true },
   fullname: { type: String, required: true }
 });

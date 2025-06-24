@@ -19,8 +19,9 @@ router.get('/login', function (req, res, next) {
   res.render('login', { error: req.flash('error') }); // Pass the error messages to the login template 
 });
 
-router.get('/feed', function (req, res, next) {
-  res.render('feed');
+router.get('/feed', async function (req, res, next) {
+  const posts = await postModel.find().populate('user');
+  res.render('feed', { posts: posts });
 });
 
 // GET post creation page
@@ -29,15 +30,22 @@ router.post('/upload', isLoggedIn, upload.single('file'), async function (req, r
     return res.status(400).send('No file uploaded.');
   }
   const user = await userModel.findOne({ username: req.session.passport.user });
-  const post = await postModel.create({
-    imageText: req.body.filecaption,
-    postImage: req.file.filename, // Use the filename from multer
-    user: user._id // Store the user's ID
-  });
 
-  user.posts.push(post._id); // Add the post ID to the user's posts array
-  user.save(); // Save the user with the new post
-  res.redirect('/profile');
+  if (req.body.isProfilePhoto) {
+    user.profileImage = req.file.filename;
+    await user.save();
+    res.redirect('/profile');
+  } else {
+    const post = await postModel.create({
+      imageText: req.body.filecaption,
+      postImage: req.file.filename, // Use the filename from multer
+      user: user._id // Store the user's ID
+    });
+
+    user.posts.push(post._id);
+    await user.save();
+    res.redirect('/profile');
+  }
 });
 
 router.get('/profile', isLoggedIn, async function (req, res, next) {
@@ -66,6 +74,13 @@ router.post("/login", passport.authenticate('local', {
   // This function is intentionally left empty as the authentication is handled by passport
 });
 
+
+router.post('/remove-profile-photo', isLoggedIn, async function (req, res, next) {
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  user.profileImage = '';
+  await user.save();
+  res.redirect('/profile');
+});
 
 router.get('/logout', function (req, res) {
   req.logout(function (err) {
