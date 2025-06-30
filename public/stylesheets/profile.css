@@ -1,6 +1,10 @@
 body {
   background-color: #f4f7fa;
   font-family: 'Arial', sans-serif;
+  font-size: 12.8px;
+  line-height: 1.2;
+  letter-spacing: 0.8px;
+  margin: 0 8px;
 }
 
 .card {
@@ -343,4 +347,25 @@ button:hover {
   .container_card {
     grid-template-columns: 1fr;
   }
+}
+
+.upbtn{
+  text-decoration: none;
+  color: black;
+  position: relative;
+  top: 50px;
+  left: 140px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  width: 126px;
+  padding: 11px 20px;
+  background-color: rgb(241, 236, 236);
+  border-radius: 20px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.upbtn:hover {
+  background-color: #007bff;
+  color: white;
 }
