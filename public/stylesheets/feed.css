@@ -317,3 +317,27 @@ img:hover {
     columns: 1;
   }
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    padding: 5px 20px; /* Add padding for spacing */
+    position: absolute; /* Position logo in the top-left */
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+}
+
+.logo img.img1 {
+    width: 40px; /* Set a fixed width for the logo */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Slight rounding for a modern look */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth hover effects */
+    background-color: transparent; /* Ensure no background on the image */
+}
+
+.logo img.img1:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); /* Subtle glow effect */
+}

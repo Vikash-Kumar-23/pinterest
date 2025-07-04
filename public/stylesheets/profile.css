@@ -216,9 +216,12 @@ button:hover {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal.show {
+  display: flex;
 }
 
 .modal-content {
@@ -322,7 +325,7 @@ button:hover {
   min-width: unset;
   margin: 0 auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+
 
 .container_card .card:hover {
   transform: translateY(-5px);
